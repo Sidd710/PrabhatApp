@@ -1,0 +1,7 @@
+{
+  "name": "PrabhatApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

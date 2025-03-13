@@ -37,7 +37,7 @@ import { ToastController } from '@ionic/angular';
           this.showToast('Login successful!', 'success');
 
           if (response.usertype === 2) {
-            this.router.navigate(['/sales-dashboard']);
+            this.router.navigate(['/docList']);
           } else if (response.usertype === 1) {
             this.router.navigate(['/merchant-dashboard']);
           }

@@ -1,0 +1,27 @@
+.merchant-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  ion-row {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .header {
+    background-color: #f8f8f8;
+    font-weight: bold;
+  }
+  
+  ion-col {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .no-data {
+    text-align: center;
+    color: gray;
+    font-style: italic;
+    margin-top: 20px;
+  }
+  

@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Merchant</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="merchantForm" (ngSubmit)="addMerchant()">
+    <ion-item>
+      <ion-label position="floating">Firm Name</ion-label>
+      <ion-input formControlName="firmname"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="merchantForm.get('firmname')?.invalid && merchantForm.get('firmname')?.touched">
+      Firm name is required.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Person Name</ion-label>
+      <ion-input formControlName="person_name"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="merchantForm.get('person_name')?.invalid && merchantForm.get('person_name')?.touched">
+      Person name is required.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="merchantForm.get('email')?.invalid && merchantForm.get('email')?.touched">
+      Enter a valid email.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Phone</ion-label>
+      <ion-input type="tel" formControlName="phone"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="merchantForm.get('phone')?.invalid && merchantForm.get('phone')?.touched">
+      Enter a valid 10-digit phone number.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">GST Number</ion-label>
+      <ion-input formControlName="gst"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="merchantForm.get('gst')?.invalid && merchantForm.get('gst')?.touched">
+      GST number is required.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Pincode</ion-label>
+      <ion-input formControlName="pincode" (ionBlur)="fetchLocation()"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="merchantForm.get('pincode')?.invalid && merchantForm.get('pincode')?.touched">
+      Enter a valid 6-digit Pincode.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">City</ion-label>
+      <ion-input formControlName="city"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="merchantForm.get('city')?.invalid && merchantForm.get('city')?.touched">
+      City is required.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">State</ion-label>
+      <ion-input formControlName="state"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="merchantForm.get('state')?.invalid && merchantForm.get('state')?.touched">
+      State is required.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Area</ion-label>
+      <ion-input formControlName="area"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Address 1</ion-label>
+      <ion-input formControlName="address_1"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="merchantForm.get('address_1')?.invalid && merchantForm.get('address_1')?.touched">
+      Address is required.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Address 2</ion-label>
+      <ion-input formControlName="address_2"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Code</ion-label>
+      <ion-input formControlName="code"></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="merchantForm.invalid">Add Merchant</ion-button>
+  </form>
+</ion-content>

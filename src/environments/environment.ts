@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiBaseUrl: 'https://techwise-apps.com/otdygp/prabhat/api' // Change this to your actual API base URL
+
 };
 
 /*

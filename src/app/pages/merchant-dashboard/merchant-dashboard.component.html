@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Merchant List</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-buttons slot="end">
+  <ion-button (click)="goToAddMerchant()">
+    <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+    Add Merchant
+  </ion-button>
+</ion-buttons>
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Merchant List</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-searchbar [(ngModel)]="searchText" placeholder="Search merchants"></ion-searchbar>
+
+      <ion-table *ngIf="merchants.length > 0" class="merchant-table">
+        <ion-row class="header">
+          <ion-col>Firm Name</ion-col>
+          <!-- <ion-col>Email</ion-col>
+          <ion-col>Phone</ion-col>
+          <ion-col>Status</ion-col> -->
+          <ion-col>Active</ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let merchant of filteredMerchants()">
+          <ion-col>{{ merchant.firmname }}</ion-col>
+          <!-- <ion-col>{{ merchant.email }}</ion-col>
+          <ion-col>{{ merchant.phone }}</ion-col> -->
+          <ion-col>
+            <ion-badge color="success" *ngIf="merchant.status == '1'">Active</ion-badge>
+    
+            <ion-button color="primary" *ngIf="merchant.status != '1'" (click)="activateMerchant(merchant.id)">
+              Activate
+            </ion-button>
+        
+          </ion-col>
+          <!-- <ion-col>
+            <ion-button fill="outline" size="small" (click)="viewMerchant(merchant)">
+              <ion-icon name="eye"></ion-icon>
+            </ion-button>
+            <ion-button fill="outline" size="small" color="danger" (click)="deleteMerchant(merchant.id)">
+              <ion-icon name="trash"></ion-icon>
+            </ion-button>
+          </ion-col> -->
+        </ion-row>
+      </ion-table>
+
+      <ion-text *ngIf="merchants.length === 0">
+        <p class="no-data">No merchants found.</p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

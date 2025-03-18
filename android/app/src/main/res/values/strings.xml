@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PrabhatApp</string>
+    <string name="title_activity_main">PrabhatApp</string>
+    <string name="package_name">com.techwise.prabhatapp</string>
+    <string name="custom_url_scheme">com.techwise.prabhatapp</string>
+</resources>

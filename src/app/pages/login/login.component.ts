@@ -16,7 +16,7 @@ import { ToastController } from '@ionic/angular';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })export class LoginComponent {
-  credentials = { email: '', password: '' };
+  credentials = { email: '', password: '',fcm_token:'' };
 
   constructor(private authService: AuthService, private router: Router,    private toastController: ToastController) {}
   async showToast(message: string, color: 'success' | 'danger') {
@@ -28,7 +28,9 @@ import { ToastController } from '@ionic/angular';
     });
     await toast.present();
   }
-  login() {
+   login() {
+    const fcmToken = localStorage.getItem('FCMToken'); // Get FCM token
+this.credentials.fcm_token=fcmToken?fcmToken:'';
     this.authService.login(this.credentials).subscribe(
       async (response) => {
         if (response.status) {

@@ -88,8 +88,8 @@
       <ion-input formControlName="address_2"></ion-input>
     </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Code</ion-label>
+    <ion-item *ngIf="!isLoggedIn">
+      <ion-label position="stacked">Code</ion-label>
       <ion-input formControlName="code"></ion-input>
     </ion-item>
 

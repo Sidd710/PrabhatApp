@@ -1,27 +1,13 @@
-
 <ion-header>
   <ion-toolbar>
     <ion-title>PrabhatApp</ion-title>
-    
-    <ion-buttons slot="end">
-      <ion-menu-toggle>
-        <ion-button id="user-menu">
-          <ion-icon name="person-circle"></ion-icon>
-        </ion-button>
-      </ion-menu-toggle>
+    <ion-buttons slot="end" *ngIf="isLoggedIn">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+        Logout
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-popover trigger="user-menu" trigger-action="click">
-  <ion-content class="ion-padding">
-    <ion-list>
-      <ion-item (click)="logout()">
-        <ion-icon name="log-out-outline" slot="start"></ion-icon>
-        <ion-label>Logout</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-content>
-</ion-popover>
 
 <ion-router-outlet></ion-router-outlet>

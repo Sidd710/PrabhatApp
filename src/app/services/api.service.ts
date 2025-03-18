@@ -13,7 +13,7 @@ export class ApiService {
   private getHeaders(skipToken: boolean = false) {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
      if (token && !skipToken) {
       headers = headers.set('token', token); // ✅ Use lowercase 'token'
     }

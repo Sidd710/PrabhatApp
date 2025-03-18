@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'sales-dashboard', component: SalesDashboardComponent, canActivate: [AuthGuard] },
   { path: 'merchant-dashboard', component: MerchantDashboardComponent, canActivate: [AuthGuard] },
-  { path: 'add-merchant', component: AddMerchantComponent,canActivate: [AuthGuard]  }, // ✅ New route
+  { path: 'add-merchant', component: AddMerchantComponent, canDeactivate:[AuthGuard]  }, // ✅ New route
   { path: 'docList', component: DocumentListComponent,canActivate: [AuthGuard]  },
   { path: '**', redirectTo: 'login' },
  

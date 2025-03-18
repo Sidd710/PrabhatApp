@@ -16,8 +16,10 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class AddMerchantComponent  implements OnInit {
   merchantForm:FormGroup;
-
+  isLoggedIn:boolean=false;
   constructor(private apiService: ApiService, private toastCtrl: ToastController,private router:Router,private fb:FormBuilder,private http:HttpClient) {
+    this.isLoggedIn = !!localStorage.getItem('token'); // Check if token exists
+
     this.merchantForm = this.fb.group({
       firmname: ['', Validators.required],
       person_name: ['', Validators.required],
@@ -30,8 +32,11 @@ export class AddMerchantComponent  implements OnInit {
       area: [''],
       address_1: ['', Validators.required],
       address_2: [''],
-      code: [''],
+     // code: [''],
     });
+    if (!this.isLoggedIn) {
+      this.merchantForm.addControl('code', this.fb.control('', Validators.required));
+    }
    }
 
   ngOnInit() {}
@@ -78,7 +83,13 @@ export class AddMerchantComponent  implements OnInit {
       (res:any) => {
         if (res.status) {
           this.showToast('Merchant added successfully!', 'success');
+          if(this.isLoggedIn){
+          
           this.router.navigate(['/merchant-dashboard']);
+          }
+          else{
+            this.router.navigate(['/login']);
+          }
         } else {
           this.showToast(res.msg, 'danger');
         }

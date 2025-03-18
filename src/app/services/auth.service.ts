@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  
+  private authState = new BehaviorSubject<boolean>(!!localStorage.getItem('token'));
+  isLoggedIn$ = this.authState.asObservable();
   constructor(private http: HttpClient, private router: Router,private apiService: ApiService) {}
  
   getRole(): string {
@@ -23,7 +24,9 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.apiService.post<any>('login/auth', credentials,true).pipe(
       tap(response => {
-        localStorage.setItem('authToken', response.token);
+        this.authState.next(true); // Notify that user is logged in
+
+        localStorage.setItem('token', response.token);
         localStorage.setItem('userData', JSON.stringify(response.userdata)); // ✅ Save user data
         localStorage.setItem('userType', response.usertype.toString()); 
       })
@@ -33,12 +36,17 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    this.authState.next(false); // Notify that user is logged out
+
     this.router.navigate(['/login']);
   }
 
- 
+  checkLoginStatus(): boolean {
+    return !!localStorage.getItem('token');
+  }
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
   }
+  
 }

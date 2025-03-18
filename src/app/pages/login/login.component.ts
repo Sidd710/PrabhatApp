@@ -33,7 +33,8 @@ import { ToastController } from '@ionic/angular';
       async (response) => {
         if (response.status) {
           // ✅ Success: Navigate to dashboard
-          localStorage.setItem('userRole', response.role);
+          localStorage.setItem('userRole', response.usertype);
+          localStorage.setItem('token', response.token);
           this.showToast('Login successful!', 'success');
 
           if (response.usertype === 2) {

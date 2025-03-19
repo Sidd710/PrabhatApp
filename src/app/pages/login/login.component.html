@@ -19,6 +19,10 @@
         <ion-input type="password" [(ngModel)]="credentials.password"></ion-input>
       </ion-item>
       <ion-button expand="full" (click)="login()">Login</ion-button>
+      <p class="register-text">
+        Don't have an account? 
+        <a (click)="addMerchant()">Register Now</a>
+      </p>
     </ion-card-content>
   </ion-card>
 </ion-content>

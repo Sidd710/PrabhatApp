@@ -10,16 +10,16 @@ import { MerchantProfileComponent } from './pages/merchant-profile/merchant-prof
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'sales-dashboard', component: SalesDashboardComponent, canActivate: [AuthGuard] },
-  { path: 'merchant-dashboard', component: MerchantDashboardComponent, canActivate: [AuthGuard] },
-  { path: 'add-merchant', component: AddMerchantComponent, canDeactivate:[AuthGuard]  }, // ✅ New route
-  { path: 'docList', component: DocumentListComponent,canActivate: [AuthGuard]  },
+  { path: 'sales-dashboard', component: SalesDashboardComponent },
+  { path: 'merchant-dashboard', component: MerchantDashboardComponent},
+  { path: 'add-merchant', component: AddMerchantComponent  }, // ✅ New route
+  { path: 'docList', component: DocumentListComponent},
  // {path:'merchant-profile',component:MerchantProfileComponent, canActivate:[AuthGuard]},
  {
   path: 'merchant-profile',
   loadComponent: () => import('./pages/merchant-profile/merchant-profile.component')
-    .then(m => m.MerchantProfileComponent),
-  canActivate: [AuthGuard] // ✅ Ensure AuthGuard allows access
+    .then(m => m.MerchantProfileComponent)
+  // ✅ Ensure AuthGuard allows access
 },
   { path: '**', redirectTo: 'login' },
  

@@ -29,6 +29,7 @@ import { ToastController } from '@ionic/angular';
     await toast.present();
   }
    login() {
+    debugger;
     const fcmToken = localStorage.getItem('FCMToken'); // Get FCM token
 this.credentials.fcm_token=fcmToken?fcmToken:'';
     this.authService.login(this.credentials).subscribe(
@@ -54,5 +55,9 @@ this.credentials.fcm_token=fcmToken?fcmToken:'';
         this.showToast('Server error! Please try again later.', 'danger');
       }
     );
+  }
+  addMerchant(){
+    this.router.navigate(['/add-merchant']);
+    
   }
 }

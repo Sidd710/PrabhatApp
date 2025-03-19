@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service'; // ✅ Adjust path if needed
 import { IonicModule, ToastController } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,7 +19,7 @@ export class MerchantProfileComponent {
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
-    private toastController: ToastController
+    private toastController: ToastController,private router:Router
   ) {
     this.profileForm = this.fb.group({
       d_o_b: ['', Validators.required],
@@ -54,6 +54,7 @@ export class MerchantProfileComponent {
         this.isLoading = false;
         if (res.status) {
           this.showToast('Profile updated successfully!');
+          this.router.navigate(['/docList']);
         } else {
           this.showToast(res.msg || 'Failed to update profile.');
         }

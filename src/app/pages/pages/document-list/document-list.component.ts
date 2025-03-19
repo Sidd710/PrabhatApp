@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonicModule, ToastController } from '@ionic/angular';
+import { App } from '@capacitor/app';
+import { IonicModule, Platform, ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -14,13 +15,27 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class DocumentListComponent  implements OnInit {
   files: any[] = [];
-  constructor(private apiService: ApiService, private toastCtrl: ToastController,private router:Router,) { }
+  constructor(private apiService: ApiService, private toastCtrl: ToastController,private router:Router,private platform: Platform,) { 
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      if (this.router.url === '/merchant-dashboard') {
+       App.exitApp(); // Exit app (for mobile) or do nothing (for web)
+      }
+    });
+  }
 
   ngOnInit() {}
   ionViewWillEnter() {
     this.loadFiles();
   }
 
+  goToProfile() {
+    debugger;
+    this.router.navigate(['/merchant-profile']).then(success => {
+      if (!success) {
+        console.error('Navigation failed');
+      }
+    });
+  }
   loadFiles() {
     this.apiService.get('files/fileslist').subscribe(
       (res:any) => {

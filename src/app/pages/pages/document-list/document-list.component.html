@@ -5,6 +5,8 @@
 </ion-header>
 
 <ion-content>
+  <ion-button (click)="goToProfile()">Edit Profile</ion-button>
+
   <ion-list *ngIf="files.length > 0; else noFiles">
     <ion-item *ngFor="let file of files" (click)="openFile(file.url)">
       <ion-label>

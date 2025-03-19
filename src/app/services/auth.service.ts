@@ -16,6 +16,9 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('authToken');
   }
+  getUserType(): string | null {
+    return localStorage.getItem('userType'); // Retrieve user type
+  }
 
   getUserData(): any {
     const data = localStorage.getItem('userData');

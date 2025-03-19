@@ -28,12 +28,12 @@ export class AppComponent implements OnInit {
         await PushNotifications.register();
       }
 
-      PushNotifications.addListener('registration', (token) => {
+      PushNotifications.addListener('registration', (token:any) => {
         console.log('FCM Token:', token.value);
         localStorage.setItem('FCMToken',token.value)
       });
 
-      PushNotifications.addListener('pushNotificationReceived', (notification) => {
+      PushNotifications.addListener('pushNotificationReceived', (notification:any) => {
         console.log('Push received:', notification);
 
         if (notification.data) {
@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
         }
       });
 
-      PushNotifications.addListener('pushNotificationActionPerformed', (action) => {
+      PushNotifications.addListener('pushNotificationActionPerformed', (action:any) => {
         console.log('Notification Clicked:', action);
       });
     }
@@ -67,8 +67,16 @@ export class AppComponent implements OnInit {
   //   });
   // }
   ngOnInit(): void {
+    if (this.isLoggedIn) {
+      const userType = this.authService.getUserType(); // Get stored user type
+      if (userType === '1') {
+        this.router.navigate(['/merchant-dashboard']); // Redirect to Sales Dashboard
+      } else if (userType === '2') {
+        this.router.navigate(['/docList']); // Redirect to Merchant Dashboard
+      }
    
   }
+}
   checkLoginStatus() {
     this.isLoggedIn = !!localStorage.getItem('token'); // Check if token exists
   }

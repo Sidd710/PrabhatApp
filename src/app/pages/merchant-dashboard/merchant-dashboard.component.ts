@@ -1,9 +1,10 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { IonicModule, ToastController } from '@ionic/angular';
+import { IonicModule, Platform, ToastController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { App } from '@capacitor/app';
 @Component({
   selector: 'app-merchant-dashboard',
    standalone: true, // ✅ Keep this since it's a standalone component
@@ -16,7 +17,13 @@ export class MerchantDashboardComponent  implements OnInit {
   merchants: any[] = [];
   searchText: string = '';
 
-  constructor(private apiService: ApiService, private toastController: ToastController,private router:Router) { }
+  constructor(private platform: Platform,private apiService: ApiService, private toastController: ToastController,private router:Router) {
+      this.platform.backButton.subscribeWithPriority(10, () => {
+        if (this.router.url === '/merchant-dashboard') {
+         App.exitApp(); // Exit app (for mobile) or do nothing (for web)
+        }
+      });
+   }
 
   ionViewWillEnter() {
     this.loadMerchants();

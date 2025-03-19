@@ -39,6 +39,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.clear();
     this.authState.next(false); // Notify that user is logged out
 
     this.router.navigate(['/login']);

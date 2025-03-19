@@ -1,13 +1,29 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>PrabhatApp</ion-title>
-    <ion-buttons slot="end" *ngIf="isLoggedIn">
-      <ion-button (click)="logout()">
-        <ion-icon name="log-out-outline"></ion-icon>
-        Logout
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<ion-app>
+  <ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content style="height: 100%;">
+      <!-- <ion-list>
+        <ion-item *ngIf="userType === '1'" routerLink="/merchant-dashboard"> Dashboard</ion-item>
+        <ion-item *ngIf="userType == '2'" routerLink="/docList"> Dashboard</ion-item>
+        <ion-item *ngIf="userType == '2'" routerLink="/merchant-profile">Profile</ion-item>
+        <ion-item routerLink="/company-contact-info">Company Contact Info</ion-item>
+        <ion-item (click)="logout()">Logout</ion-item>
+      </ion-list> -->
+      <ion-list>
+        <ion-menu-toggle auto-hide="true">
+          <ion-item *ngIf="userType === '1'" routerLink="/merchant-dashboard">Sales Dashboard</ion-item>
+          <ion-item *ngIf="userType === '2'" routerLink="/docList">Merchant Dashboard</ion-item>
+          <ion-item *ngIf="userType === '2'" routerLink="/merchant-profile">Profile</ion-item>
+          <ion-item routerLink="/companyInfo">Company Contact Info</ion-item>
+          <ion-item (click)="logout()">Logout</ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
 
-<ion-router-outlet></ion-router-outlet>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-app>

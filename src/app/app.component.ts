@@ -12,7 +12,7 @@ import { Platform } from '@ionic/angular';
 })
 export class AppComponent implements OnInit {
   isLoggedIn = false;
-
+  userType:any;
   constructor(private router:Router,private authService: AuthService,private platform: Platform ) {
     this.authService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status;
@@ -67,11 +67,13 @@ export class AppComponent implements OnInit {
   //   });
   // }
   ngOnInit(): void {
+    
     if (this.isLoggedIn) {
-      const userType = this.authService.getUserType(); // Get stored user type
-      if (userType === '1') {
+      debugger;
+      this.userType = this.authService.getUserType(); // Get stored user type
+      if (this.userType === '1') {
         this.router.navigate(['/merchant-dashboard']); // Redirect to Sales Dashboard
-      } else if (userType === '2') {
+      } else if (this.userType === '2') {
         this.router.navigate(['/docList']); // Redirect to Merchant Dashboard
       }
    
@@ -84,6 +86,7 @@ export class AppComponent implements OnInit {
   logout() {
     localStorage.removeItem('token'); // Clear token
     this.isLoggedIn = false;
+    localStorage.clear();
     this.router.navigate(['/login']); // Redirect to login page
   }
   loginSuccess(token: string) {

@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AppModule } from 'src/app/app.module';
@@ -15,10 +15,22 @@ import { ToastController } from '@ionic/angular';
    schemas: [CUSTOM_ELEMENTS_SCHEMA], // ✅ Import required modules
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
-})export class LoginComponent {
+})export class LoginComponent implements OnInit {
   credentials = { email: '', password: '',fcm_token:'' };
 
   constructor(private authService: AuthService, private router: Router,    private toastController: ToastController) {}
+  ngOnInit(): void {
+    debugger;
+    const isLoggedIn = !!localStorage.getItem('token'); 
+    if (isLoggedIn) {
+      const userType = this.authService.getUserType(); // Get stored user type
+      if (userType === '1') {
+        this.router.navigate(['/merchant-dashboard']); // Redirect to Sales Dashboard
+      } else if (userType === '2') {
+        this.router.navigate(['/docList']); // Redirect to Merchant Dashboard
+      }
+    }
+  }
   async showToast(message: string, color: 'success' | 'danger') {
     const toast = await this.toastController.create({
       message,

@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Document List</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Documnet List</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,4 +25,8 @@
       <h3>No documents found.</h3>
     </ion-text>
   </ng-template>
+  <div *ngIf="selectedFileUrl">
+    <h3>Preview:</h3>
+    <iframe [src]="selectedFileUrl " width="100%" height="500px"></iframe>
+  </div>
 </ion-content>

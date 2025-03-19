@@ -22,13 +22,11 @@ export class MerchantProfileComponent {
     private toastController: ToastController
   ) {
     this.profileForm = this.fb.group({
-      birthdate: ['', Validators.required],
-      anniversary: [''],
-      address_1: ['', Validators.required],
-      address_2: [''],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      pincode: ['', Validators.required]
+      d_o_b: ['', Validators.required],
+      d_o_a: [''],
+      home_addr1: ['', Validators.required],
+      home_addr2: [''],
+   
     });
 
     this.loadProfile();
@@ -36,9 +34,9 @@ export class MerchantProfileComponent {
 
   // ✅ Load Merchant Data from API
   loadProfile() {
-    this.apiService.get('merchant/profile').subscribe((res: any) => {
+    this.apiService.get('merchants/getprofile').subscribe((res: any) => {
       if (res.status) {
-        this.profileForm.patchValue(res.userdata);
+        this.profileForm.patchValue(res.profile);
       }
     });
   }
@@ -51,7 +49,7 @@ export class MerchantProfileComponent {
     }
 
     this.isLoading = true;
-    this.apiService.post('merchant/update-profile', this.profileForm.value).subscribe(
+    this.apiService.post('merchants/addprofiledetails', this.profileForm.value).subscribe(
       async (res: any) => {
         this.isLoading = false;
         if (res.status) {

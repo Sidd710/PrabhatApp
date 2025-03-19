@@ -34,8 +34,16 @@ export class AppComponent implements OnInit {
       });
 
       PushNotifications.addListener('pushNotificationReceived', (notification) => {
-        console.log('Notification Received:', notification);
-        alert(notification.body);
+        console.log('Push received:', notification);
+
+        if (notification.data) {
+          // ✅ Handle `data` messages from Firebase
+          console.log('Data Message:', notification.data);
+          alert(`${notification.data.title}\n\n${notification.data.body}`);
+        } else {
+          // ✅ Handle normal FCM notifications
+          alert(` ${notification.title}\n\n${notification.body}`);
+        }
       });
 
       PushNotifications.addListener('pushNotificationActionPerformed', (action) => {

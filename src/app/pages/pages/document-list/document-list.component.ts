@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { App } from '@capacitor/app';
 import { IonicModule, Platform, ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
@@ -11,13 +12,14 @@ import { ApiService } from 'src/app/services/api.service';
   imports: [CommonModule, IonicModule],
   templateUrl: './document-list.component.html',
   styleUrls: ['./document-list.component.scss'],
+  
  
 })
 export class DocumentListComponent  implements OnInit {
   files: any[] = [];
-  constructor(private apiService: ApiService, private toastCtrl: ToastController,private router:Router,private platform: Platform,) { 
+  constructor(private apiService: ApiService, private toastCtrl: ToastController,private router:Router,private platform: Platform, private iab: InAppBrowser) { 
     this.platform.backButton.subscribeWithPriority(10, () => {
-      if (this.router.url === '/merchant-dashboard') {
+      if (this.router.url === '/docList') {
        App.exitApp(); // Exit app (for mobile) or do nothing (for web)
       }
     });
@@ -52,6 +54,8 @@ export class DocumentListComponent  implements OnInit {
     );
   }
   openFile(url: string) {
-    window.open(url, '_blank'); // Open file in a new tab
+   // window.open(url, '_blank'); // Open file in a new tab
+    const browser = this.iab.create(url, '_system'); // Open in system browser
+
   }
 }

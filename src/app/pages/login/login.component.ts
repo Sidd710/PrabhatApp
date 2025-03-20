@@ -41,6 +41,7 @@ import { ToastController } from '@ionic/angular';
     await toast.present();
   }
    login() {
+  
     const fcmToken = localStorage.getItem('FCMToken'); // Get FCM token
 this.credentials.fcm_token=fcmToken?fcmToken:'';
     this.authService.login(this.credentials).subscribe(

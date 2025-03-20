@@ -56,8 +56,8 @@ export class DocumentListComponent  implements OnInit {
     );
   }
   openFile(url: string) {
-   // window.open(url, '_blank'); // Open file in a new tab
-   this.selectedFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    window.open(url, '_blank'); // Open file in a new tab
+   //this.selectedFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
 
   }

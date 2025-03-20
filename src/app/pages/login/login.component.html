@@ -1,28 +1,23 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="login-container">
+  <div class="logo-container">
+    <img src="assets/images/logo.png" alt="Prabhat Logo" />
+  </div>
 
-<ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Welcome to PrabhatApp</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" [(ngModel)]="credentials.email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" [(ngModel)]="credentials.password"></ion-input>
-      </ion-item>
-      <ion-button expand="full" (click)="login()">Login</ion-button>
-      <p class="register-text">
-        Don't have an account? 
-        <a (click)="addMerchant()">Register Now</a>
-      </p>
-    </ion-card-content>
-  </ion-card>
+  <form (submit)="login()">
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" [(ngModel)]="credentials.email" name="email" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" [(ngModel)]="credentials.password" name="password" required></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit">Login</ion-button>
+
+    <div class="register-link">
+      <a routerLink="/add-merchant">Register as Merchant</a>
+    </div>
+  </form>
 </ion-content>

@@ -7,6 +7,7 @@ import { AddMerchantComponent } from './pages/pages/add-merchant/add-merchant.co
 import { DocumentListComponent } from './pages/pages/document-list/document-list.component';
 import { MerchantProfileComponent } from './pages/merchant-profile/merchant-profile.component';
 import { CompanyContactInfoComponent } from './pages/company-contact-info/company-contact-info.component';
+import { ForgotPasswordPage } from './pages/forgot-password/forgot-password.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'add-merchant', component: AddMerchantComponent  }, // ✅ New route
   { path: 'docList', component: DocumentListComponent},
   { path: 'companyInfo', component: CompanyContactInfoComponent},
+  {path:'forgot-password', component:ForgotPasswordPage}
  // {path:'merchant-profile',component:MerchantProfileComponent, canActivate:[AuthGuard]},
  {
   path: 'merchant-profile',

@@ -68,6 +68,9 @@ this.credentials.fcm_token=fcmToken?fcmToken:'';
       }
     );
   }
+  goToForgotPassword() {
+    this.router.navigate(['/forgot-password']);
+  }
   addMerchant(){
     this.router.navigate(['/add-merchant']);
     

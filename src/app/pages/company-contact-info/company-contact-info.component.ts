@@ -25,7 +25,7 @@ export class CompanyContactInfoComponent implements OnInit {
     this.http.get('https://techwise-apps.com/otdygp/prabhat/api/files/details').subscribe(
       (response: any) => {
         if (response.status) {
-          debugger;
+
           this.companyDetails = response.info; // Assuming API returns a `details` object
         } else {
           console.error('Failed to fetch company details');

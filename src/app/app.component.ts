@@ -4,6 +4,7 @@ import { AuthService } from './services/auth.service';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { Capacitor } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
+// import { StatusBar } from '@capacitor/status-bar';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -66,10 +67,10 @@ export class AppComponent implements OnInit {
   //     console.log('Token refreshed:', token);
   //   });
   // }
-  ngOnInit(): void {
-    
+  async ngOnInit(): Promise<void> {
+    // Change status bar color (for Android)
+    // await StatusBar.setBackgroundColor({ color: '#ff0000' });
     if (this.isLoggedIn) {
-      debugger;
       this.userType = this.authService.getUserType(); // Get stored user type
       if (this.userType === '1') {
         this.router.navigate(['/merchant-dashboard']); // Redirect to Sales Dashboard

@@ -34,11 +34,19 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+// @import "@ionic/angular/css/palettes/light.system.css";
 ion-content {
     height: auto !important;
   }
   app-login, app-merchant-dashboard, app-doclist, app-profile {
     height: auto !important;
     display: block;
+  }
+  :root {
+    --ion-color-primary: #3880ff; /* Change primary color if needed */
+    --ion-background-color: #ffffff;
+    --ion-text-color: #000000;
+  }
+  html {
+    color-scheme: light;
   }

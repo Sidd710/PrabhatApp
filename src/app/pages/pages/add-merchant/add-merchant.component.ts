@@ -83,7 +83,7 @@ export class AddMerchantComponent  implements OnInit {
       (res:any) => {
         if (res.status) {
           this.showToast('Merchant added successfully!', 'success');
-          debugger;
+
           if(this.isLoggedIn){
           
           this.router.navigate(['/merchant-dashboard']);

@@ -35,7 +35,6 @@ export class MerchantDashboardComponent  implements OnInit {
     this.apiService.get('merchants/merchantslistbyuser').subscribe(
       (response: any) => {
         if (response.status) {
-          debugger;
           this.merchants = response['merchantlist']; // Assuming merchants list is in `data` key
         } else {
           this.showToast('Failed to load merchants.', 'danger');
@@ -63,7 +62,6 @@ export class MerchantDashboardComponent  implements OnInit {
     await toast.present();
   }
   activateMerchant(merchantId: string) {
-    debugger;
     this.apiService.post('merchants/approvemerchant', { merchant_id: merchantId }).subscribe(
       (res:any) => {
         if (res.status) {

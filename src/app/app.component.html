@@ -15,15 +15,16 @@
       </ion-list> -->
       <ion-list>
         <ion-menu-toggle auto-hide="true">
-          <ion-item *ngIf="userType === '1'" routerLink="/merchant-dashboard">Sales Dashboard</ion-item>
-          <ion-item *ngIf="userType === '2'" routerLink="/docList">Merchant Dashboard</ion-item>
+          <ion-item *ngIf="userType === '1'" routerLink="/merchant-dashboard">Merchants</ion-item>
+          <ion-item *ngIf="userType === '2'" routerLink="/docList">Documents</ion-item>
           <ion-item *ngIf="userType === '2'" routerLink="/merchant-profile">Profile</ion-item>
           <ion-item routerLink="/companyInfo">Company Contact Info</ion-item>
           <ion-item (click)="logout()">Logout</ion-item>
         </ion-menu-toggle>
       </ion-list>
     </ion-content>
+    <img src="../assets/images/logo.png">
   </ion-menu>
-
+  
   <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

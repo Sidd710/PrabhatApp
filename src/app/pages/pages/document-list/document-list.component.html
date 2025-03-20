@@ -3,30 +3,36 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Documnet List</ion-title>
+    <ion-title>Documents</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="goToProfile()">Edit Profile</ion-button>
-
-  <ion-list *ngIf="files.length > 0; else noFiles">
-    <ion-item *ngFor="let file of files" (click)="openFile(file.url)">
-      <ion-label>
-        <h2>{{ file.filename }}</h2>
-        <p>{{ file.created_at | date: 'medium' }}</p>
-      </ion-label>
-      <ion-icon name="document-outline" slot="end"></ion-icon>
-    </ion-item>
-  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let file of files">
+        <ion-card (click)="openFile(file.url)" class="file-card">
+          <ion-card-header>
+            <ion-icon name="document-outline" size="large"></ion-icon>
+          </ion-card-header>
+          <ion-card-content>
+            <h3>{{ file.filename }}</h3>
+            <p>{{ file.created_at | date: 'medium' }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ng-template #noFiles>
     <ion-text color="danger" class="ion-text-center">
       <h3>No documents found.</h3>
     </ion-text>
   </ng-template>
+
   <div *ngIf="selectedFileUrl">
     <h3>Preview:</h3>
-    <iframe [src]="selectedFileUrl " width="100%" height="500px"></iframe>
+    <iframe [src]="selectedFileUrl" width="100%" height="500px"></iframe>
+    
   </div>
 </ion-content>

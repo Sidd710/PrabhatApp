@@ -17,6 +17,7 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class DocumentListComponent  implements OnInit {
   files: any[] = [];
+  noFiles=false;
   selectedFileUrl: SafeResourceUrl | null = null;
 
   constructor(private apiService: ApiService, private toastCtrl: ToastController,private router:Router,private platform: Platform, private sanitizer: DomSanitizer) { 
@@ -43,11 +44,12 @@ export class DocumentListComponent  implements OnInit {
   loadFiles() {
     this.apiService.get('files/fileslist').subscribe(
       (res:any) => {
-        if (res.status && res.fileslist) {
+        debugger;     
+        if (res.status && res.fileslist &&res.fileslist.length>0) {
           this.files = res.fileslist; // Extracting 'fileslist' from response
-        } else {
+        } else {this.noFiles=true;
           this.files = [];
-          console.error('Failed to fetch files:', res.msg);
+          //console.error('Failed to fetch files:', res.msg);
         }
       },
       (error) => {

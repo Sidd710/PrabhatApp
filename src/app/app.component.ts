@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { Capacitor } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
-//  import { StatusBar, Style } from '@capacitor/status-bar';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,15 +15,18 @@ import { Platform } from '@ionic/angular';
 })
 export class AppComponent implements OnInit {
   isLoggedIn = false;
-  userType:any;
-  constructor(private router:Router,private authService: AuthService,private platform: Platform) {
+  userType:string | null = null;
+  userCode:any;
+  private subscription: Subscription = new Subscription(); // To unsubscribe later
+  constructor(private router:Router,private authService: AuthService,private platform: Platform,private cdr: ChangeDetectorRef) {
+   
     this.authService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status;
     });
-    // this.platform.ready().then(async () => {
-    //   await StatusBar.setStyle({ style: Style.Dark }); // Use Style.Dark or Style.Light
-    //   await StatusBar.show(); // Ensure the status bar is visible
-    // });
+     this.platform.ready().then(async () => {
+      await StatusBar.setStyle({ style: Style.Dark }); // Use Style.Dark or Style.Light
+       await StatusBar.show(); // Ensure the status bar is visible
+     });
     this.initPushNotifications();
 
     this.checkLoginStatus();
@@ -74,16 +78,24 @@ export class AppComponent implements OnInit {
   // }
   async ngOnInit(): Promise<void> {
     // Change status bar color (for Android)
-    // await StatusBar.setOverlaysWebView({ overlay: false });
+     await StatusBar.setOverlaysWebView({ overlay: false });
+       // Subscribe to userType updates
+    this.subscription = this.authService.userType$.subscribe((type) => {
+      this.userType = type;
+    });
+this.userType=localStorage.getItem('userType');
 
+if (this.userType) {
+  this.cdr.detectChanges(); // Force update UI when userType changes
+}
     if (this.isLoggedIn) {
-      this.userType = this.authService.getUserType(); // Get stored user type
+      // this.userType = this.authService.getUserType(); // Get stored user type
       if (this.userType === '1') {
         this.router.navigate(['/merchant-dashboard']); // Redirect to Sales Dashboard
       } else if (this.userType === '2') {
         this.router.navigate(['/docList']); // Redirect to Merchant Dashboard
       }
-   
+   this.userCode=localStorage.getItem('code');
   }
 }
   checkLoginStatus() {

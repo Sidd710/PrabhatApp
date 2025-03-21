@@ -111,4 +111,13 @@ export class AddMerchantComponent  implements OnInit {
     toast.present();
   }
 
+  goBack(){
+    if(this.isLoggedIn){
+          
+      this.router.navigate(['/merchant-dashboard']);
+      }
+      else{
+        this.router.navigate(['/login']);
+      }
+  }
 }

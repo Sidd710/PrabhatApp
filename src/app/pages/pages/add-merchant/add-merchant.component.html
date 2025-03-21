@@ -1,13 +1,17 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
+  <ion-toolbar *ngIf="isLoggedIn">
+    <ion-buttons slot="start"  >
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Menu</ion-title>
   </ion-toolbar>
+  <ion-toolbar *ngIf="!isLoggedIn">
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  <h2 *ngIf="isLoggedIn">Add Merchant</h2>
   <form [formGroup]="merchantForm" (ngSubmit)="addMerchant()">
     <ion-item>
       <ion-label position="floating">Firm Name</ion-label>
@@ -92,10 +96,22 @@
     </ion-item>
 
     <ion-item *ngIf="!isLoggedIn">
-      <ion-label position="stacked">Code</ion-label>
+      <ion-label position="floating">Code</ion-label>
       <ion-input formControlName="code"></ion-input>
     </ion-item>
-
-    <ion-button expand="full" type="submit" [disabled]="merchantForm.invalid">Add Merchant</ion-button>
+    <ion-grid>
+      <ion-row class="ion-justify-content-between">
+        <ion-col size="6">
+          <ion-button expand="block" type="submit" [disabled]="merchantForm.invalid">
+            Add Merchant
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button expand="block" fill="outline" (click)="goBack()">
+            Go Back
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </form>
 </ion-content>

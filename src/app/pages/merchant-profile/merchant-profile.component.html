@@ -5,37 +5,77 @@
     </ion-buttons>
     <ion-title>Merchant Profile</ion-title>
     
-
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-    <ion-item>
-      <ion-label position="floating">Birthdate</ion-label>
-      <ion-input type="date" formControlName="d_o_b"></ion-input>
-    </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Anniversary Date</ion-label>
-      <ion-input type="date" formControlName="d_o_a"></ion-input>
-    </ion-item>
+  <!-- View Profile Section -->
+  <div *ngIf="!isEditing">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Profile Information</ion-card-title>
+        <ion-button fill="clear" class="edit-btn" (click)="toggleEdit()">
+          <ion-icon name="create-outline"></ion-icon>
+          {{ isEditing ? 'Cancel' : 'Edit' }}
+        </ion-button>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label><strong>Birthdate:</strong></ion-label>
+          <ion-text>{{ profileForm.value.d_o_b || '' }}</ion-text>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Address Line 1</ion-label>
-      <ion-input type="text" formControlName="home_addr1"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label><strong>Anniversary Date:</strong></ion-label>
+          <ion-text>{{ profileForm.value.d_o_a || '' }}</ion-text>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Address Line 2</ion-label>
-      <ion-input type="text" formControlName="home_addr2"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label><strong>Address Line 1:</strong></ion-label>
+          <ion-text>{{ profileForm.value.home_addr1 || '' }}</ion-text>
+        </ion-item>
 
- 
+        <ion-item>
+          <ion-label><strong>Address Line 2:</strong></ion-label>
+          <ion-text>{{ profileForm.value.home_addr2 || '' }}</ion-text>
+        </ion-item>
 
-    <ion-button expand="full" type="submit" [disabled]="isLoading">
-      <ion-spinner *ngIf="isLoading"></ion-spinner>
-      <span *ngIf="!isLoading">Save Profile</span>
-    </ion-button>
-  </form>
+        <!-- <ion-button expand="full" (click)="toggleEdit()">Edit</ion-button> -->
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Edit Profile Section -->
+  <div *ngIf="isEditing">
+    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+      <ion-item>
+        <ion-label position="floating">Birthdate</ion-label>
+        <ion-input type="date" formControlName="d_o_b"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Anniversary Date</ion-label>
+        <ion-input type="date" formControlName="d_o_a"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Address Line 1</ion-label>
+        <ion-input type="text" formControlName="home_addr1"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Address Line 2</ion-label>
+        <ion-input type="text" formControlName="home_addr2"></ion-input>
+      </ion-item>
+
+      <ion-button expand="full" type="submit" [disabled]="isLoading">
+        <ion-spinner *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">Save Profile</span>
+      </ion-button>
+
+      <ion-button expand="full" color="medium" (click)="toggleEdit()">Cancel</ion-button>
+    </form>
+  </div>
+
 </ion-content>

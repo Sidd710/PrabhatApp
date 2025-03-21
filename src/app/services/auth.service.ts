@@ -27,11 +27,13 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.apiService.post<any>('login/auth', credentials,true).pipe(
       tap(response => {
+        if (response.status){
         this.authState.next(true); // Notify that user is logged in
 
         localStorage.setItem('token', response.token);
         localStorage.setItem('userData', JSON.stringify(response.userdata)); // ✅ Save user data
         localStorage.setItem('userType', response.usertype.toString()); 
+        }
       })
     );
   }

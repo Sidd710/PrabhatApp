@@ -31,7 +31,11 @@ export class MerchantProfileComponent {
 
     this.loadProfile();
   }
+  isEditing = false;
 
+  toggleEdit() {
+    this.isEditing = !this.isEditing;
+  }
   // ✅ Load Merchant Data from API
   loadProfile() {
     this.apiService.get('merchants/getprofile').subscribe((res: any) => {

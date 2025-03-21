@@ -4,7 +4,7 @@ import { AuthService } from './services/auth.service';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { Capacitor } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
- import { StatusBar, Style } from '@capacitor/status-bar';
+//  import { StatusBar, Style } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-root',
@@ -19,10 +19,10 @@ export class AppComponent implements OnInit {
     this.authService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status;
     });
-    this.platform.ready().then(async () => {
-      await StatusBar.setStyle({ style: Style.Dark }); // Use Style.Dark or Style.Light
-      await StatusBar.show(); // Ensure the status bar is visible
-    });
+    // this.platform.ready().then(async () => {
+    //   await StatusBar.setStyle({ style: Style.Dark }); // Use Style.Dark or Style.Light
+    //   await StatusBar.show(); // Ensure the status bar is visible
+    // });
     this.initPushNotifications();
 
     this.checkLoginStatus();
@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
   // }
   async ngOnInit(): Promise<void> {
     // Change status bar color (for Android)
-    await StatusBar.setOverlaysWebView({ overlay: false });
+    // await StatusBar.setOverlaysWebView({ overlay: false });
 
     if (this.isLoggedIn) {
       this.userType = this.authService.getUserType(); // Get stored user type

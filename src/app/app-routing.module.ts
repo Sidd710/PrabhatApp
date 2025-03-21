@@ -8,6 +8,7 @@ import { DocumentListComponent } from './pages/pages/document-list/document-list
 import { MerchantProfileComponent } from './pages/merchant-profile/merchant-profile.component';
 import { CompanyContactInfoComponent } from './pages/company-contact-info/company-contact-info.component';
 import { ForgotPasswordPage } from './pages/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,6 +24,8 @@ const routes: Routes = [
     .then(m => m.MerchantProfileComponent)
   // ✅ Ensure AuthGuard allows access
 },
+{ path: 'reset-password', component: ResetPasswordComponent },
+
   { path: '**', redirectTo: 'login' },
  
 

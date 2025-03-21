@@ -27,7 +27,7 @@ export class ForgotPasswordPage {
       return;
     }
 
-    this.apiService.post('forgot-password', { email: this.email }).subscribe(
+    this.apiService.post('login/forgotpassword', { email: this.email }).subscribe(
       async (res: any) => {
         if (res.status) {
           this.showToast('Password reset link sent to your email.');

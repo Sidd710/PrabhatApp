@@ -16,11 +16,17 @@
 
     <ion-button expand="block" type="submit">Login</ion-button>
 
-    <div class="register-link">
+    <!-- <div class="register-link">
       <a routerLink="/add-merchant">Register as Merchant</a>
     </div>
     <ion-text color="primary">
       <p (click)="goToForgotPassword()" class="forgot-password">Forgot Password?</p>
-    </ion-text>
+    </ion-text>-->
+    <div class="auth-links">
+      <a routerLink="/add-merchant">Register as Merchant</a>
+      <ion-text color="primary">
+        <p (click)="goToForgotPassword()" class="forgot-password">Forgot Password?</p>
+      </ion-text>
+    </div>
   </form>
 </ion-content>

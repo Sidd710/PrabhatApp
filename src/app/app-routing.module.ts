@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'add-merchant', component: AddMerchantComponent  }, // ✅ New route
   { path: 'docList', component: DocumentListComponent},
   { path: 'companyInfo', component: CompanyContactInfoComponent},
-  {path:'forgot-password', component:ForgotPasswordPage}
+  {path:'forgot-password', component:ForgotPasswordPage},
  // {path:'merchant-profile',component:MerchantProfileComponent, canActivate:[AuthGuard]},
  {
   path: 'merchant-profile',

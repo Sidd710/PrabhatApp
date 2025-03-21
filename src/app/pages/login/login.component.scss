@@ -8,11 +8,24 @@ ion-card {
   ion-button {
     margin-top: 16px;
   }
+  // .forgot-password {
+  //   text-align: center;
+  //   margin-top: 10px;
+  //   cursor: pointer;
+  //   font-size: 14px;
+  //   text-decoration: underline;
+  // }
+  .auth-links {
+    display: flex;
+    justify-content: space-between;
+    
+    padding: 10px;
+    align-items: center;
+    gap: 10px; /* Adjust space between items */
+  }
+  
   .forgot-password {
-    text-align: center;
-    margin-top: 10px;
     cursor: pointer;
-    font-size: 14px;
-    text-decoration: underline;
+    margin: 0;
   }
   

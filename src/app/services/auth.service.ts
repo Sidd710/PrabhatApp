@@ -8,6 +8,8 @@ import { ApiService } from './api.service';
 export class AuthService {
   private authState = new BehaviorSubject<boolean>(!!localStorage.getItem('token'));
   isLoggedIn$ = this.authState.asObservable();
+  private userTypeSubject = new BehaviorSubject<string | null>(localStorage.getItem('userType'));
+  userType$ = this.userTypeSubject.asObservable(); // Observable to subscribe to userType changes
   constructor(private http: HttpClient, private router: Router,private apiService: ApiService) {}
  
   getRole(): string {
@@ -24,12 +26,18 @@ export class AuthService {
     const data = localStorage.getItem('userData');
     return data ? JSON.parse(data) : null;
   }
+  setUserType(userType: string): void {
+    localStorage.setItem('userType', userType);
+    this.userTypeSubject.next(userType); // Update observable
+  }
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.apiService.post<any>('login/auth', credentials,true).pipe(
       tap(response => {
         if (response.status){
         this.authState.next(true); // Notify that user is logged in
+        this.setUserType(response.usertype.toString()); // or '2' based on login response
 
+localStorage.setItem('code',response.userdata.code)
         localStorage.setItem('token', response.token);
         localStorage.setItem('userData', JSON.stringify(response.userdata)); // ✅ Save user data
         localStorage.setItem('userType', response.usertype.toString()); 

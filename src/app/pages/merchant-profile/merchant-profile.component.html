@@ -4,46 +4,76 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Merchant Profile</ion-title>
-    
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-
+  <ion-card>
+    <ion-card-header>
+      <ion-toolbar>
+        <ion-title style="padding: 10px;">Company Info</ion-title>
+      </ion-toolbar>
+    </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label><strong>Firm Name:</strong></ion-label>
+          <ion-text>{{ firmname || '' }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Contact Person:</strong></ion-label>
+          <ion-text>{{ name || '' }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Phone:</strong></ion-label>
+          <ion-text>{{ phone || '' }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Email:</strong></ion-label>
+          <ion-text>{{ email || '' }}</ion-text>
+        </ion-item>
+      </ion-card-content>
+    
+  </ion-card>
   <!-- View Profile Section -->
   <div *ngIf="!isEditing">
     <ion-card>
-      <ion-card-header>
-        <ion-card-title>Profile Information</ion-card-title>
+  <ion-card-header>
+    <ion-toolbar>
+      <ion-title>Profile Info</ion-title>
+      <ion-buttons slot="end">
         <ion-button fill="clear" class="edit-btn" (click)="toggleEdit()">
           <ion-icon name="create-outline"></ion-icon>
           {{ isEditing ? 'Cancel' : 'Edit' }}
         </ion-button>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-item>
-          <ion-label><strong>Birthdate:</strong></ion-label>
-          <ion-text>{{ profileForm.value.d_o_b || '' }}</ion-text>
-        </ion-item>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-card-header>
+  <ion-card-content>
 
-        <ion-item>
-          <ion-label><strong>Anniversary Date:</strong></ion-label>
-          <ion-text>{{ profileForm.value.d_o_a || '' }}</ion-text>
-        </ion-item>
+    <ion-item lines="none">
+      <ion-label position="stacked"><strong>Birthdate:</strong></ion-label>
+      <ion-text>{{ profileForm.value.d_o_b ? (profileForm.value.d_o_b | date:'dd MMM yyyy') : 'N/A' }}</ion-text>
+    </ion-item>
+  
+    <ion-item lines="none">
+      <ion-label position="stacked"><strong>Anniversary Date:</strong></ion-label>
+      <ion-text>{{ profileForm.value.d_o_a ? (profileForm.value.d_o_a | date:'dd MMM yyyy') : 'N/A' }}</ion-text>
+    </ion-item>
+  
+    <ion-item lines="none">
+      <ion-label position="stacked"><strong>Home Address Line 1:</strong></ion-label>
+      <ion-text>{{ profileForm.value.home_addr1 || 'Not Provided' }}</ion-text>
+    </ion-item>
+  
+    <ion-item lines="none">
+      <ion-label position="stacked"><strong>Home Address Line 2:</strong></ion-label>
+      <ion-text>{{ profileForm.value.home_addr2 || 'Not Provided' }}</ion-text>
+    </ion-item>
+  </ion-card-content>
+  
+</ion-card>
 
-        <ion-item>
-          <ion-label><strong>Address Line 1:</strong></ion-label>
-          <ion-text>{{ profileForm.value.home_addr1 || '' }}</ion-text>
-        </ion-item>
-
-        <ion-item>
-          <ion-label><strong>Address Line 2:</strong></ion-label>
-          <ion-text>{{ profileForm.value.home_addr2 || '' }}</ion-text>
-        </ion-item>
-
-        <!-- <ion-button expand="full" (click)="toggleEdit()">Edit</ion-button> -->
-      </ion-card-content>
-    </ion-card>
   </div>
 
   <!-- Edit Profile Section -->

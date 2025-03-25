@@ -17,13 +17,16 @@
         <ion-menu-toggle auto-hide="true">
           <ion-item *ngIf="userType === '1'" routerLink="/merchant-dashboard">Merchants</ion-item>
           <ion-item *ngIf="userType === '2'" routerLink="/docList">Documents</ion-item>
-          <ion-item *ngIf="userType === '2'" routerLink="/merchant-profile">Profile</ion-item>
+          <ion-item *ngIf="userType === '2'" routerLink="/merchant-profile">My Profile</ion-item>
           <ion-item routerLink="/companyInfo">Company Contact Info</ion-item>
           <ion-item routerLink="/reset-password">Reset Password</ion-item>
+          
+          
           <ion-item (click)="logout()">Logout</ion-item>
         </ion-menu-toggle>
       </ion-list>
     </ion-content>
+    <ion-label *ngIf="userType == '1'" style="font-weight: bold;text-align: center;">User Code {{userCode}}</ion-label>
     <img src="../assets/images/logo.png">
   </ion-menu>
   

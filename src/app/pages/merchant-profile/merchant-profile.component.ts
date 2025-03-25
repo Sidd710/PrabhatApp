@@ -15,7 +15,10 @@ import { CommonModule } from '@angular/common';
 export class MerchantProfileComponent {
   profileForm: FormGroup;
   isLoading = false;
-
+  firmname:any;
+  name:any;
+  phone:any;
+  email:any;
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
@@ -41,6 +44,10 @@ export class MerchantProfileComponent {
     this.apiService.get('merchants/getprofile').subscribe((res: any) => {
       if (res.status) {
         this.profileForm.patchValue(res.profile);
+        this.firmname=res.profile['firmname'];
+        this.phone=res.profile['phone'];
+        this.email=res.profile['email'];
+        this.name=res.profile['person_name'];
       }
     });
   }

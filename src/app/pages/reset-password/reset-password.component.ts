@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
+import { ApiService } from 'src/app/services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
@@ -13,9 +15,10 @@ import { IonicModule } from '@ionic/angular';
 export class ResetPasswordComponent {
   resetPasswordForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private apiService:ApiService, private toastCtrl: ToastController,private router:Router
+  ) {
     this.resetPasswordForm = this.fb.group(
-      {
+      {oldPassword:['',Validators.required],
         newPassword: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required]
       },
@@ -31,8 +34,37 @@ export class ResetPasswordComponent {
 
   resetPassword() {
     if (this.resetPasswordForm.valid) {
-      console.log('Password Reset Successful:', this.resetPasswordForm.value);
-      alert('Password has been reset successfully!');
+      const payload = {
+        oldpassword: this.resetPasswordForm.value['oldPassword'],
+        newpassword: this.resetPasswordForm.value['newPassword'],
+        type: localStorage.getItem('userType')
+      };
+      this.apiService.post('login/resetpassword', payload).subscribe(
+        async (res: any) => {
+          if (res.status) {
+            this.showToast(res.msg);
+            if (localStorage.getItem('userType') === '1') {
+              this.router.navigate(['/merchant-dashboard']); // Redirect to Sales Dashboard
+            } else if (localStorage.getItem('userType') === '2') {
+              this.router.navigate(['/docList']); // Redirect to Merchant Dashboard
+            }
+            
+          } else {
+            this.showToast(res.msg || 'Something went wrong');
+          }
+        },
+        (error) => {
+          this.showToast('API Error: ' + error.message);
+        }
+      );
     }
+  }
+  async showToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      position: 'top',
+    });
+    toast.present();
   }
 }

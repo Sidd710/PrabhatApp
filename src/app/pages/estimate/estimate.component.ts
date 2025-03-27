@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ActionSheetController, AlertController, ToastController } from '@ionic/angular';
+import { IonicModule, ActionSheetController, AlertController, ToastController, LoadingController, IonLoading } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ApiService } from 'src/app/services/api.service';
@@ -19,11 +19,16 @@ export class EstimateComponent implements OnInit {
   estimates: any[] = [];
   isUploading: boolean = false;
   uploadProgress: number = 0;
+  loadingProgress : any
+
+
   constructor(
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private sanitizer: DomSanitizer,
+    public loadingCtrl: LoadingController,
+
     private apiService: ApiService
   ) {}
 
@@ -32,8 +37,12 @@ export class EstimateComponent implements OnInit {
   }
 
   loadImages() {
+    this.presentLoading();
+
     this.apiService.get('merchants/viewestimates').subscribe(
       (res: any) => {
+        this.loadingProgress.dismiss(); 
+
         if (res.status && res.estimates) {
           this.estimates = res.estimates.map((estimate: any) => ({
             ...estimate,
@@ -42,6 +51,8 @@ export class EstimateComponent implements OnInit {
         }
       },
       (error) => {
+        this.loadingProgress.dismiss(); 
+
         console.error('API Error:', error);
       }
     );
@@ -117,22 +128,31 @@ export class EstimateComponent implements OnInit {
       });
 
       if (image.webPath) {
-        const blob = await fetch(image.webPath).then((res) => res.blob());
-        const fileName = `estimate_${new Date().getTime()}.jpg`;
-        const file = new File([blob], fileName, { type: 'image/jpeg' });
-
-        this.uploadEstimate(file);
+        const resizedFile = await this.resizeImage(image.webPath, 2); // Resize to 2MB
+      
+        if (resizedFile) {
+          this.uploadEstimate(resizedFile);
+        } else {
+          this.showToast("Failed to process image.");
+        }
       }
     } catch (error) {
       this.showToast('Camera access denied.');
     }
   }
+  async presentLoading() {
+    this.loadingProgress = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      spinner: 'crescent',
+    });
+  
+    await this.loadingProgress.present(); // Correct way to show loader
+  }
   uploadEstimate(file: File) {
     debugger;
     const formData = new FormData();
-    this.isUploading = true;
+   this.presentLoading();
 
-    this.uploadProgress = 0;
 
     formData.append('estimate', file,file.name); // Append file under 'estimate' key
     console.log(`File Size: ${(file.size / 1024).toFixed(2)} KB`); // Convert to KB for readability
@@ -140,20 +160,63 @@ export class EstimateComponent implements OnInit {
     this.apiService.postPhoto('merchants/addestimate', formData).subscribe(
       (event: any) => {
         debugger;
-        if (event.type === HttpEventType.UploadProgress) {
-          this.uploadProgress = event.total ? event.loaded / event.total : 0;
-        } else if (event.body && event.body.status) {
-          this.isUploading = false;
-        this.uploadProgress = 0;
+        this.loadingProgress.dismiss(); 
+
           this.showToast('Upload successful');
           this.loadImages(); // Reload images
-        }
+       
       },
       (error) => {
+        this.loadingProgress.dismiss(); 
+
         console.error('Upload failed:', error);
+       
+
       }
     );
   }
+  async resizeImage(imageUri: string, maxSizeMB: number): Promise<File | null> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = imageUri;
+      img.onload = async () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+  
+        let width = img.width;
+        let height = img.height;
+  
+        // Resize while keeping aspect ratio
+        const scaleFactor = Math.sqrt((maxSizeMB * 1024 * 1024) / (width * height));
+        width *= scaleFactor;
+        height *= scaleFactor;
+  
+        canvas.width = width;
+        canvas.height = height;
+  
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+  
+          // Convert to Blob
+          canvas.toBlob(async (blob) => {
+            if (blob && blob.size <= maxSizeMB * 1024 * 1024) {
+              const fileName = `estimate_${new Date().getTime()}.jpg`;
+              const file = new File([blob], fileName, { type: "image/jpeg" });
+              resolve(file);
+            } else {
+              resolve(null);
+            }
+          }, "image/jpeg", 0.8); // Compression quality
+        } else {
+          reject("Canvas not supported");
+        }
+      };
+  
+      img.onerror = () => reject("Image load error");
+    });
+  }
+  
+  
   async showToast(message: string) {
     const toast = await this.toastCtrl.create({
       message,

@@ -17,9 +17,7 @@
       <ion-button expand="block" (click)="selectImage()">Upload or Capture</ion-button>
 
       <!-- Progress Bar (Visible only when uploading) -->
-      <ion-progress-bar *ngIf="isUploading" [value]="uploadProgress"></ion-progress-bar>
-      <p *ngIf="isUploading">{{ (uploadProgress * 100) | number:'1.0-0' }}% Uploaded</p>
-      
+
     </ion-card-content>
   </ion-card>
 
@@ -31,6 +29,7 @@
           <img [src]="estimate.img_url" alt="Estimate Image" />
           <ion-card-content>
             <p>Status: {{ estimate.status === '1' ? 'Pending' : 'Completed' }}</p>
+            
             <ion-button fill="clear" color="danger" (click)="confirmDelete(estimate.id, i)">
               <ion-icon name="trash-outline"></ion-icon>
             </ion-button>

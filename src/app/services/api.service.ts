@@ -21,6 +21,18 @@ export class ApiService {
     return { headers };
   }
 
+  private getHeadersForPhoto(skipToken: boolean = false) {
+    let headers = new HttpHeaders();
+
+    const token = localStorage.getItem('token');
+     if (token && !skipToken) {
+      headers = headers.set('token', token); // ✅ Use lowercase 'token'
+    }
+    
+
+    return { headers };
+  }
+
   // Generic GET request
   get<T>(endpoint: string,skipToken: boolean = false): Observable<T> {
     return this.http.get<T>(`${this.baseUrl}/${endpoint}`, this.getHeaders(skipToken));
@@ -31,7 +43,9 @@ export class ApiService {
     return this.http.post<T>(`${this.baseUrl}/${endpoint}`, data, this.getHeaders(skipToken));
   }
  
-
+  postPhoto<T>(endpoint: string, data: any,skipToken: boolean = false): Observable<T> {
+    return this.http.post<T>(`${this.baseUrl}/${endpoint}`, data, this.getHeadersForPhoto(skipToken));
+  }
   // Generic PUT request
   put<T>(endpoint: string, data: any,skipToken: boolean = false): Observable<T> {
     return this.http.put<T>(`${this.baseUrl}/${endpoint}`, data,this.getHeaders(skipToken));

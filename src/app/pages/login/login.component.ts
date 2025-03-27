@@ -46,7 +46,6 @@ import { ToastController } from '@ionic/angular';
 this.credentials.fcm_token=fcmToken?fcmToken:'';
     this.authService.login(this.credentials).subscribe(
       async (response) => {
-        debugger;
         if (response.status) {
           // ✅ Success: Navigate to dashboard
           localStorage.setItem('userRole', response.usertype);

@@ -9,6 +9,9 @@ import { MerchantProfileComponent } from './pages/merchant-profile/merchant-prof
 import { CompanyContactInfoComponent } from './pages/company-contact-info/company-contact-info.component';
 import { ForgotPasswordPage } from './pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { OrdersComponent } from './pages/orders/orders.component';
+import { EstimateComponent } from './pages/estimate/estimate.component';
+import { QueryComponent } from './pages/query/query.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +20,9 @@ const routes: Routes = [
   { path: 'docList', component: DocumentListComponent},
   { path: 'companyInfo', component: CompanyContactInfoComponent},
   {path:'forgot-password', component:ForgotPasswordPage},
+  {path:'estimate', component:EstimateComponent},
+  {path:'orders', component:OrdersComponent},
+  {path:'query', component:QueryComponent},
  // {path:'merchant-profile',component:MerchantProfileComponent, canActivate:[AuthGuard]},
  {
   path: 'merchant-profile',

@@ -34,7 +34,6 @@ export class DocumentListComponent  implements OnInit {
   }
 
   goToProfile() {
-    debugger;
     this.router.navigate(['/merchant-profile']).then(success => {
       if (!success) {
         console.error('Navigation failed');
@@ -44,7 +43,6 @@ export class DocumentListComponent  implements OnInit {
   loadFiles() {
     this.apiService.get('files/fileslist').subscribe(
       (res:any) => {
-        debugger;     
         if (res.status && res.fileslist &&res.fileslist.length>0) {
           this.files = res.fileslist; // Extracting 'fileslist' from response
         } else {this.noFiles=true;

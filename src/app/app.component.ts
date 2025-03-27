@@ -23,10 +23,12 @@ export class AppComponent implements OnInit {
     this.authService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status;
     });
+    if (Capacitor.isNativePlatform()) {
      this.platform.ready().then(async () => {
       await StatusBar.setStyle({ style: Style.Dark }); // Use Style.Dark or Style.Light
        await StatusBar.show(); // Ensure the status bar is visible
      });
+    }
     this.initPushNotifications();
 
     this.checkLoginStatus();
@@ -78,7 +80,9 @@ export class AppComponent implements OnInit {
   // }
   async ngOnInit(): Promise<void> {
     // Change status bar color (for Android)
+    if (Capacitor.isNativePlatform()) {
      await StatusBar.setOverlaysWebView({ overlay: false });
+    }
        // Subscribe to userType updates
     this.subscription = this.authService.userType$.subscribe((type) => {
       this.userType = type;

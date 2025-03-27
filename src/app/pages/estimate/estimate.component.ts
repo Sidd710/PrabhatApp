@@ -5,6 +5,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ApiService } from 'src/app/services/api.service';
 import { FormsModule } from '@angular/forms';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-estimate',
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
 export class EstimateComponent implements OnInit {
   images: { url: SafeUrl; path: string }[] = []; // Stores multiple images
   estimates: any[] = [];
-
+  isUploading: boolean = false;
+  uploadProgress: number = 0;
   constructor(
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
@@ -105,19 +107,47 @@ export class EstimateComponent implements OnInit {
       this.showToast('Failed to pick image.');
     }
   }
+  async selectImage() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 100,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Prompt,
+      });
 
+      if (image.webPath) {
+        const blob = await fetch(image.webPath).then((res) => res.blob());
+        const fileName = `estimate_${new Date().getTime()}.jpg`;
+        const file = new File([blob], fileName, { type: 'image/jpeg' });
+
+        this.uploadEstimate(file);
+      }
+    } catch (error) {
+      this.showToast('Camera access denied.');
+    }
+  }
   uploadEstimate(file: File) {
     debugger;
     const formData = new FormData();
+    this.isUploading = true;
+
+    this.uploadProgress = 0;
+
     formData.append('estimate', file,file.name); // Append file under 'estimate' key
     console.log(`File Size: ${(file.size / 1024).toFixed(2)} KB`); // Convert to KB for readability
 
     this.apiService.postPhoto('merchants/addestimate', formData).subscribe(
-      (response: any) => {
-        console.log('Upload successful:', response);
-        // this.toastCtrl.create()
-        this.showToast('Estimate uploaded successfully!');
-        this.loadImages();
+      (event: any) => {
+        debugger;
+        if (event.type === HttpEventType.UploadProgress) {
+          this.uploadProgress = event.total ? event.loaded / event.total : 0;
+        } else if (event.body && event.body.status) {
+          this.isUploading = false;
+        this.uploadProgress = 0;
+          this.showToast('Upload successful');
+          this.loadImages(); // Reload images
+        }
       },
       (error) => {
         console.error('Upload failed:', error);

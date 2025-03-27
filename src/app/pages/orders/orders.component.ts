@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { ActionSheetController, AlertController, IonicModule, ToastController } from '@ionic/angular';
+import { ActionSheetController, AlertController, IonicModule, LoadingController, ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -16,13 +16,15 @@ import { ApiService } from 'src/app/services/api.service';
 export class OrdersComponent  implements OnInit {
  images: { url: SafeUrl; path: string }[] = []; // Stores multiple images
  orders: any[] = [];
-
+ loadingProgress : any
   constructor(
      private actionSheetCtrl: ActionSheetController,
         private alertCtrl: AlertController,
         private toastCtrl: ToastController,
         private sanitizer: DomSanitizer,
-        private apiService: ApiService
+        private apiService: ApiService,
+            public loadingCtrl: LoadingController,
+        
   ) { }
 
   ngOnInit() {
@@ -30,8 +32,11 @@ export class OrdersComponent  implements OnInit {
   }
 
   loadImages() {
+    this.presentLoading();
     this.apiService.get('merchants/vieworders').subscribe(
       (res: any) => {
+        this.loadingProgress.dismiss(); 
+
         if (res.status && res.orders) {
           this.orders = res.orders.map((order: any) => ({
             ...order,
@@ -40,72 +45,84 @@ export class OrdersComponent  implements OnInit {
         }
       },
       (error) => {
+        this.loadingProgress.dismiss(); 
+
         console.error('API Error:', error);
       }
     );
   }
-
-  async presentActionSheet() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Add Image',
-      buttons: [
-        { text: 'Capture Photo', icon: 'camera', handler: () => this.capturePhoto() },
-        { text: 'Upload from Gallery', icon: 'image', handler: () => this.pickImage() },
-        { text: 'Cancel', role: 'cancel' },
-      ],
+  async presentLoading() {
+    this.loadingProgress = await this.loadingCtrl.create({
+      message: 'Please wait...',
+      spinner: 'crescent',
     });
-
-    await actionSheet.present();
+  
+    await this.loadingProgress.present(); // Correct way to show loader
   }
-
-  async capturePhoto() {
+  async selectImage() {
     try {
       const image = await Camera.getPhoto({
         quality: 100,
         allowEditing: false,
         resultType: CameraResultType.Uri,
-        source: CameraSource.Camera,
+        source: CameraSource.Prompt,
       });
-      const blob = await fetch(image.webPath!).then((r) => r.blob());
 
-      // Extract filename from URL (if available), otherwise default to 'order.jpg'
-      const fileName = image.path?.split('/').pop() || 'order.jpg';
-    
-      const file = new File([blob], fileName, { type: 'image/jpeg' });
-      this.uploadOrder(file);
-
-      // if (image.dataUrl) {
-      //   this.uploadImage(image.dataUrl);
-      // }
+      if (image.webPath) {
+        const resizedFile = await this.resizeImage(image.webPath, 2); // Resize to 2MB
+      
+        if (resizedFile) {
+          this.uploadOrder(resizedFile);
+        } else {
+          this.showToast("Failed to process image.");
+        }
+      }
     } catch (error) {
       this.showToast('Camera access denied.');
     }
   }
-
-  async pickImage() {
-    try {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Photos,
-      });
-
-      // if (image.dataUrl) {
-      //   this.uploadImage(image.dataUrl);
-      // }
-      const blob = await fetch(image.webPath!).then((r) => r.blob());
-
-      // Extract filename from URL (if available), otherwise default to 'order.jpg'
-      const fileName = image.path?.split('/').pop() || 'order.jpg';
-    
-      const file = new File([blob], fileName, { type: 'image/jpeg' });
-      this.uploadOrder(file);
-    } catch (error) {
-      this.showToast('Failed to pick image.');
-    }
+  
+  async resizeImage(imageUri: string, maxSizeMB: number): Promise<File | null> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = imageUri;
+      img.onload = async () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+  
+        let width = img.width;
+        let height = img.height;
+  
+        // Resize while keeping aspect ratio
+        const scaleFactor = Math.sqrt((maxSizeMB * 1024 * 1024) / (width * height));
+        width *= scaleFactor;
+        height *= scaleFactor;
+  
+        canvas.width = width;
+        canvas.height = height;
+  
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+  
+          // Convert to Blob
+          canvas.toBlob(async (blob) => {
+            if (blob && blob.size <= maxSizeMB * 1024 * 1024) {
+              const fileName = `estimate_${new Date().getTime()}.jpg`;
+              const file = new File([blob], fileName, { type: "image/jpeg" });
+              resolve(file);
+            } else {
+              resolve(null);
+            }
+          }, "image/jpeg", 0.8); // Compression quality
+        } else {
+          reject("Canvas not supported");
+        }
+      };
+  
+      img.onerror = () => reject("Image load error");
+    });
   }
-
+  
   uploadOrder(file: File) {
     debugger;
     const formData = new FormData();

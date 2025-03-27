@@ -8,23 +8,34 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content >
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Upload Estimate Image</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" (click)="selectImage()">Upload or Capture</ion-button>
+
+      <!-- Progress Bar (Visible only when uploading) -->
+
+    </ion-card-content>
+  </ion-card>
   <ion-grid>
     <ion-row>
       <ion-col size="6" size-md="4" size-lg="3" *ngFor="let order of orders; let i = index">
-        <div class="image-container">
+        <ion-card class="image-card">
           <img [src]="order.img_url" alt="order Image" />
           <ion-card-content>
             <h3>Status: {{ order.statusText }}</h3>
-          </ion-card-content>
+        
           <ion-button fill="clear" color="danger" class="delete-btn" (click)="confirmDelete(order.id, i)">
             <ion-icon name="trash-outline"></ion-icon>
           </ion-button>
-          
-        </div>
+        </ion-card-content>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-button expand="full" (click)="presentActionSheet()">Add Image</ion-button>
+  <!-- <ion-button expand="full" (click)="presentActionSheet()">Add Image</ion-button> -->
 </ion-content>

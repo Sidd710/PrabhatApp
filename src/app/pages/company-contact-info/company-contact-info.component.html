@@ -1,37 +1,47 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      
-
-    </ion-buttons>
-    <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Company Contact Info</ion-title>
   </ion-toolbar>
-  
-  
 </ion-header>
 
-<ion-content *ngIf="companyDetails">
+<ion-content *ngIf="companyDetails; else loadingState">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>{{ companyDetails.name }}</ion-card-title>
+      <ion-card-title class="ion-text-center">{{ companyDetails.name }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p><strong>GST No:</strong> {{ companyDetails.gst_no }}</p>
-      <p><strong>Email:</strong> 
-        <a href="mailto:{{ companyDetails.email }}">{{ companyDetails.email }}</a>
-      </p>
-      <p><strong>Phone:</strong> 
-        <a href="tel:{{ companyDetails.phone.split(',')[0] }}">{{ companyDetails.phone }}</a>
-      </p>
-      <p><strong>Address:</strong> {{ companyDetails.address }}</p>
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked"><strong>GST No:</strong></ion-label>
+          <p>{{ companyDetails.gst_no }}</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked"><strong>Email:</strong></ion-label>
+          <a href="mailto:{{ companyDetails.email }}">{{ companyDetails.email }}</a>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked"><strong>Phone:</strong></ion-label>
+          <a href="tel:{{ companyDetails.phone.split(',')[0] }}">{{ companyDetails.phone }}</a>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked"><strong>Address:</strong></ion-label>
+          <p [innerHTML]="companyDetails.address"></p>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
 </ion-content>
 
-<ion-content *ngIf="!companyDetails">
-  <ion-spinner name="dots"></ion-spinner>
-  <p>Loading company details...</p>
-</ion-content>
+<!-- Loading State -->
+<ng-template #loadingState>
+  <ion-content class="ion-text-center">
+    <ion-spinner name="dots"></ion-spinner>
+    <p>Loading company details...</p>
+  </ion-content>
+</ng-template>

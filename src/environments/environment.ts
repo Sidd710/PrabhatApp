@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://techwise-apps.com/otdygp/prabhat/api', // Change this to your actual API base URL
+  apiBaseUrl: 'https://prabhattraders.biz/office/api', // Change this to your actual API base URL
   
     firebase: {
       apiKey: "AIzaSyBvevuTdsT9kA5_doyIOK_oquUJpGHaCuU",

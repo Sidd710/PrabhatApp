@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl:'https://techwise-apps.com/otdygp/prabhat/api',
+  apiBaseUrl:'https://prabhattraders.biz/office/api',
   firebase: {
     apiKey: "AIzaSyBvevuTdsT9kA5_doyIOK_oquUJpGHaCuU",
     authDomain: "prabhattraders-39d7c.firebaseapp.com",

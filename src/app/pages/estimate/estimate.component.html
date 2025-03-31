@@ -24,16 +24,27 @@
   <!-- Display Images Side by Side -->
   <ion-grid>
     <ion-row>
-      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let estimate of estimates; let i = index">
+      <ion-col size="12" size-md="6" size-lg="3" *ngFor="let estimate of estimates; let i = index">
         <ion-card class="image-card">
           <img [src]="estimate.img_url" alt="Estimate Image" />
           <ion-card-content>
-            <p>Status: {{ estimate.status === '1' ? 'Pending' : 'Completed' }}</p>
-            
-            <ion-button fill="clear" color="danger" (click)="confirmDelete(estimate.id, i)">
-              <ion-icon name="trash-outline"></ion-icon>
-            </ion-button>
+            <div class="status-container">
+              <div class="status-label">
+                <strong>Status:</strong>
+                <ion-badge [color]="estimate.status === '1' ? 'warning' : 'success'">
+                  {{ estimate.status === '1' ? 'Pending' : 'Completed' }}
+                </ion-badge>
+              </div>
+          
+              <ion-button fill="clear" color="danger" (click)="confirmDelete(estimate.id, i)">
+                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
           </ion-card-content>
+          
+          
+          
+          
         </ion-card>
       </ion-col>
     </ion-row>

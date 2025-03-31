@@ -22,7 +22,7 @@ export class CompanyContactInfoComponent implements OnInit {
   }
 
   getCompanyDetails() {
-    this.http.get('https://techwise-apps.com/otdygp/prabhat/api/files/details').subscribe(
+    this.http.get('https://prabhattraders.biz/office/api/files/details').subscribe(
       (response: any) => {
         if (response.status) {
 

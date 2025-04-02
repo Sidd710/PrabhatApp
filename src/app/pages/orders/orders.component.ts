@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { ActionSheetController, AlertController, IonicModule, LoadingController, ToastController } from '@ionic/angular';
+import { ActionSheetController, AlertController, IonicModule, IonModal, LoadingController, ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -16,7 +16,12 @@ import { ApiService } from 'src/app/services/api.service';
 export class OrdersComponent  implements OnInit {
  images: { url: SafeUrl; path: string }[] = []; // Stores multiple images
  orders: any[] = [];
- loadingProgress : any
+ loadingProgress : any;
+ isModalOpen = false;
+   selectedImage: string | null = null;
+   
+   @ViewChild('imageModal', { static: false }) imageModal!: IonModal;
+ 
   constructor(
      private actionSheetCtrl: ActionSheetController,
         private alertCtrl: AlertController,
@@ -177,6 +182,14 @@ export class OrdersComponent  implements OnInit {
         console.error('API Error:', error);
       }
     );
+  }
+  openImageModal(imageUrl: string) {
+    this.selectedImage = imageUrl;
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
   }
 
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ActionSheetController, AlertController, ToastController, LoadingController, IonLoading } from '@ionic/angular';
+import { IonicModule, ActionSheetController, AlertController, ToastController, LoadingController, IonLoading, IonModal } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ApiService } from 'src/app/services/api.service';
@@ -20,7 +20,10 @@ export class EstimateComponent implements OnInit {
   isUploading: boolean = false;
   uploadProgress: number = 0;
   loadingProgress : any
-
+  isModalOpen = false;
+  selectedImage: string | null = null;
+  
+  @ViewChild('imageModal', { static: false }) imageModal!: IonModal;
 
   constructor(
     private actionSheetCtrl: ActionSheetController,
@@ -253,6 +256,14 @@ export class EstimateComponent implements OnInit {
         console.error('API Error:', error);
       }
     );
+  }
+  openImageModal(imageUrl: string) {
+    this.selectedImage = imageUrl;
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
   }
 
   
